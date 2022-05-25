@@ -68,6 +68,15 @@ TeleopPanel::TeleopPanel( QWidget* parent )
   output_topic_editor_ = new QLineEdit;
   topic_layout->addWidget( output_topic_editor_ );
 
+  QHBoxLayout* layout_scale = new QHBoxLayout;
+  {
+    layout_scale->addWidget(new QLabel("Linear scale:"));
+    linear_scale_edit_ = new QLineEdit("1.0");
+    layout_scale->addWidget(linear_scale_edit_);
+    layout_scale->addWidget(new QLabel("Angular scale:"));
+    angular_scale_edit_ = new QLineEdit("0.5");
+    layout_scale->addWidget(angular_scale_edit_);
+  }
   // Then create the control widget.
   drive_widget_ = new DriveWidget;
 
@@ -75,12 +84,13 @@ TeleopPanel::TeleopPanel( QWidget* parent )
   QVBoxLayout* layout = new QVBoxLayout;
   layout->addLayout( topic_layout );
   layout->addWidget( drive_widget_ );
+  layout->addLayout( layout_scale );
   setLayout( layout );
 
   // Create a timer for sending the output.  Motor controllers want to
   // be reassured frequently that they are doing the right thing, so
   // we keep re-sending velocities even when they aren't changing.
-  // 
+  //
   // Here we take advantage of QObject's memory management behavior:
   // since "this" is passed to the new QTimer as its parent, the
   // QTimer is deleted by the QObject destructor when this TeleopPanel
@@ -158,6 +168,8 @@ void TeleopPanel::sendVel()
 {
   if( ros::ok() && velocity_publisher_ )
   {
+    drive_widget_->setLinearScale(linear_scale_edit_->text().toFloat());
+    drive_widget_->setAngularScale(angular_scale_edit_->text().toFloat());
     geometry_msgs::Twist msg;
     msg.linear.x = linear_velocity_;
     msg.linear.y = 0;

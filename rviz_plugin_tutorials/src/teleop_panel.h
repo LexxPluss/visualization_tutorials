@@ -33,6 +33,7 @@
 # include <ros/ros.h>
 
 # include <rviz/panel.h>
+# include <QRadioButton>
 #endif
 
 class QLineEdit;
@@ -115,6 +116,10 @@ protected:
   // The latest velocity values from the drive widget.
   float linear_velocity_;
   float angular_velocity_;
+
+   QRadioButton* radio1_;
+   QLineEdit* linear_scale_edit_;
+   QLineEdit* angular_scale_edit_;
   // END_TUTORIAL
 };
 

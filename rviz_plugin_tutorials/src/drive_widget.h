@@ -64,6 +64,9 @@ public:
   // good size for this.
   virtual QSize sizeHint() const { return QSize( 150, 150 ); }
 
+  void setLinearScale(float linear) { linear_scale_ = linear; };
+  void setAngularScale(float angular) { angular_scale_ = angular; };
+
   // We emit outputVelocity() whenever it changes.
 Q_SIGNALS:
   void outputVelocity( float linear, float angular );
