@@ -89,7 +89,7 @@ void PlantFlagTool::onInitialize()
 
   if( rviz::loadMeshFromResource( flag_resource_ ).isNull() )
   {
-    ROS_ERROR( "PlantFlagTool: failed to load model resource '%s'.", flag_resource_.c_str() );
+    ROS_WARN( "PlantFlagTool: failed to load model resource '%s'.", flag_resource_.c_str() );
     return;
   }
 
